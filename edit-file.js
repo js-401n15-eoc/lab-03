@@ -1,39 +1,33 @@
 'use strict';
 
-// const fs  = require('./files/__mocks__/fs.js');
 const reader = require('./lib/reader.js');
 const writer = require('./lib/writer.js');
-const file = `${__dirname}/files/data/person.json`;
-//let file = `${__dirname}/data/file.txt`;
+const filePath = `${__dirname}/files/data/person.json`;
+const Validator = require('./lib/validator.js');
+const valObj = new Validator();
+const personRules = {
+    fields: {
+      firstName: { typing: 'string', required: true },
+      lastName: { typing: 'string', required: true },
+      hair: {
+        typing: 'object', required: true,
+        type: { typing: 'string', required: true },
+        color: { typing: 'string', required: true },
+      },
+      favoriteFoods: { typing: 'array', valueType: 'string' },
+      married: { typing: 'boolean', required: true },
+      kids: { typing: 'number', required: true }
+    },
+};
 
-// let readData = reader.readerWithCallback(file, (err, data) => {
-//     if (err) { throw err };
-//     console.log('Callback from fs read', data);
-//     return data;
-// });
-
-// const writeData = writer.writerWithCallback(file, readData, (err, data) => {
-//     if (err) { throw err };
-//     console.log('Callback from fs write', data);
-// });
-
-// readData(file, (err, data) => {
-//     if (err) { throw err };
-//     writer.writerWithCallback(file, data, (err, innerData) => {
-//         if (err) { throw err };
-//         console.log('Callback from fs write', innerData);
-//     });
-// });
-
-let editHelper = (err, file) => {
+let editHelper = (err, filePath) => {
     if (err) { throw err; }
-    console.log('2: Received file: ', file);
-    reader.readerWithCallback(file, (err, data) => {
+    console.log('2: Received file path: ', filePath);
+    reader.readerWithCallback(filePath, (err, data) => {
         if (err) { throw err; }
-        console.log('Callback from fs read: ', data);
-        console.log('Current marital status: ', data.married);
-
-        writer.writerWithCallback(file, data, (innerErr, innerData) => {
+        console.log('Callback from fs read:', data);
+        console.log('Current marital status:', data.married);
+        writer.writerWithCallback(filePath, data, personRules, (innerErr, innerData) => {
             if (innerErr) { throw innerErr };
             console.log('Callback from fs write', innerData);
             console.log(`Changed marital status to ${innerData.married}`);
@@ -41,9 +35,9 @@ let editHelper = (err, file) => {
     });
 }
 
-let editFile = (file, cb) => {
-    console.log('1: Calling the error first callback (read data)');
-    cb(undefined, file);
+let editFile = (filePath, cb) => {
+    console.log('1: Entered editfile');
+    cb(!filePath ? 'Error: empty file' : undefined, filePath);
 }
 
-editFile(file, editHelper);
+editFile(filePath, editHelper);

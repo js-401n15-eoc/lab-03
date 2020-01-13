@@ -7,14 +7,8 @@ exports.readFile = (file, cb) => {
     cb('Invalid File');
   }
   else {
-    //const obj = {"firstName":"Edward","lastName":"Scissorhands","hair":{"type":"wavy","color":"brown"},"favoriteFoods":["pizza","cupcakes","children"],"married":false,"kids":0}
-    // const mockFs = module.constructor._load('fs');
-    // mockFs.readFile(file, (err, data) => {
-    //       if (err) { callback(err); }
-    // else { callback(undefined, data.toString().trim()); }
-    // });
-    //let fileContents = req.body('file');
-    cb(undefined, Buffer.from(file));
+    const obj = {"firstName":"Edward","lastName":"Scissorhands","hair":{"type":"wavy","color":"brown"},"favoriteFoods":["pizza","cupcakes","children"],"married":false,"kids":0};
+    cb(undefined, obj);
   }
 };
 

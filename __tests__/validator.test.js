@@ -1,6 +1,6 @@
 'use strict';
 
-const Validator = require('../../lib/validator.js');
+const Validator = require('../lib/validator.js');
 const valObj = new Validator();
 
 describe('validator module performs basic validation of', () => {

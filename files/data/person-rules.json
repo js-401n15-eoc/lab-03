@@ -1,0 +1,36 @@
+{
+	"fields": {
+		"firstName": {
+			"typing": "string",
+			"required": true
+		},
+		"lastName": {
+			"typing": "string",
+			"required": true
+		},
+		"hair": {
+			"typing": "object",
+			"required": true,
+			"type": {
+				"typing": "string",
+				"required": true
+			},
+			"color": {
+				"typing": "string",
+				"required": true
+			}
+		},
+		"favoriteFoods": {
+			"typing": "array",
+			"valueType": "string"
+		},
+		"married": {
+			"typing": "boolean",
+			"required": true
+		},
+		"kids": {
+			"typing": "number",
+			"required": true
+		}
+	}
+}
