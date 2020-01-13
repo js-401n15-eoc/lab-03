@@ -23,7 +23,7 @@ describe('reader', () => {
   const goodPath = `${__dirname}/files/data/person.json`;
   const badFile = `${__dirname}/files/data/person.exe`;
   const badPath = `abcd!`;
-  
+
   it('can return a valid JSON object when given a proper file path and type', () => {
     reader.mockReaderWithCallback(goodPath, (err, data) => {
       if (err) { throw err; }
@@ -49,4 +49,3 @@ describe('reader', () => {
     });
   });
 });
-
