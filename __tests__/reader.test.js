@@ -3,6 +3,8 @@
 const Validator = require('../lib/validator.js');
 const valObj = new Validator();
 const reader = require('../lib/reader.js');
+var lolex = require('lolex');
+var clock = lolex.createClock();
 
 describe('reader', () => {
   const personRules = {
@@ -33,7 +35,7 @@ describe('reader', () => {
 
   it('throws an error for an invalid file path', () => {
     reader.mockReaderWithCallback(badPath, (err, data) => {
-      setTimeout(() => {
+      clock.setTimeout(() => {
         expect(err).toBeTruthy();
         expect(err).toEqual('Invalid Directory');
         expect(data).toBeFalsy();

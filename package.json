@@ -14,7 +14,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "eslint": "^5.6.1"
+    "eslint": "^5.6.1",
+    "lolex": "^5.1.2"
   },
   "devDependencies": {
     "jest": "^24.9.0"

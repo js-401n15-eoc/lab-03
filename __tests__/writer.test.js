@@ -3,6 +3,8 @@
 const Validator = require('../lib/validator.js');
 const valObj = new Validator();
 const writer = require('../lib/writer.js');
+var lolex = require('lolex');
+var clock = lolex.createClock();
 
 describe('reader', () => {
   const personRules = {
@@ -58,7 +60,7 @@ describe('reader', () => {
 
   it('throws an error for an invalid object type', () => {
     writer.mockWriterWithCallback(goodPath, susan, personRules, (err, data) => {
-      setTimeout(() => {
+      clock.setTimeout(() => {
         expect(err).toBeTruthy();
         expect(err).toEqual('Invalid Object');
         expect(data).toBeFalsy();
@@ -68,7 +70,7 @@ describe('reader', () => {
 
   it('throws an error for an invalid directory', () => {
     writer.mockWriterWithCallback(badPath, edward, personRules, (err, data) => {
-      setTimeout(() => {
+      clock.setTimeout(() => {
         expect(err).toBeTruthy();
         expect(err).toEqual('Invalid Directory');
         expect(data).toBeFalsy();
@@ -78,7 +80,7 @@ describe('reader', () => {
 
   it('throws an error for an invalid file type', () => {
     writer.mockWriterWithCallback(badFile, edward, personRules, (err, data) => {
-      setTimeout(() => {
+      clock.setTimeout(() => {
         expect(err).toBeTruthy();
         expect(err).toEqual('Invalid File');
         expect(data).toBeFalsy();
