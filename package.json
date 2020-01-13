@@ -2,7 +2,7 @@
   "name": "file-reader",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "edit-file.js",
   "directories": {
     "lib": "lib"
   },
