@@ -86,16 +86,16 @@ describe('validator module performs basic validation of', () => {
 describe('valObj module performs complex validations', () => {
   const personRules = {
     fields: {
-      id: { type: 'string', required: true },
-      name: { type: 'string', required: true },
-      age: { type: 'number', required: true },
-      gender: { type: 'string', required: true, approvedVals: ['male', 'female'] },
+      firstName: { typing: 'string', required: true },
+      lastName: { typing: 'string', required: true },
       hair: {
-        type: 'object', required: true,
-        color: { type: 'string', required: true },
-        style: { type: 'string', required: true },
+        typing: 'object', required: true,
+        type: { typing: 'string', required: true },
+        color: { typing: 'string', required: true },
       },
-      children: { type: 'array', valueType: 'string' },
+      favoriteFoods: { typing: 'array', valueType: 'string' },
+      married: { typing: 'boolean', required: true },
+      kids: { typing: 'number', required: true }
     },
   };
 
@@ -111,93 +111,41 @@ describe('valObj module performs complex validations', () => {
     children: [],
   };
 
-  const baldSusan = {
-    id: '123-45-6789',
-    name: 'Susan Nullhair',
-    age: 66,
-    gender: 'female',
-    hair: {
-    },
-    children: [],
-  };
 
-  const noColorSusan = {
-    id: '123-45-6789',
-    name: 'Susan Baldie',
-    age: 66,
-    gender: 'female',
+  const edward = {
+    firstName: 'Edward',
+    lastName: 'Scissorhands',
     hair: {
-      style: 'bald',
+      type: 'wavy',
+      color: 'brown',
     },
-    children: [],
-  };
-
-  const fred = {
-    id: 38,
-    name: 'Freddy McCoder',
-    hair: {
-      style: 'short',
-      color: 'black',
-    },
-    children: [],
-  };
-
-  const fredWithProperChildren = {
-    id: '321-94-9843',
-    name: 'Freddy McCoder',
-    age: 44,
-    gender: 'male',
-    hair: {
-      style: 'short',
-      color: 'black',
-    },
-    children: ['Bob', 'Tom', 'Sue'],
-  };
-
-  const fredWithInvalidChildren = {
-    id: '321-94-9843',
-    name: 'Freddy McCoder',
-    age: 44,
-    hair: {
-      style: 'short',
-      color: 'black',
-    },
-    children: ['Bob', 123, 'Sue'],
-  };
-
-  const nonBinaryFred = {
-    id: '321-94-9843',
-    name: 'Freddy McCoder',
-    age: 22,
-    gender: 'X',
-    hair: {
-      style: 'short',
-      color: 'black',
-    },
-    children: [],
+    favoriteFoods: ['pizza','cupcakes','children'],
+    married: true, 
+    kids: 0
   };
 
   it('validates the presence of required object properties at any level', () => {
     // i.e. does person.hair.color exist and have a good value, not just person.hair
-    expect(valObj.isValid(susan, personRules)).toBeTruthy();
-    expect(valObj.isValid(baldSusan, personRules)).toBeFalsy();
-    expect(valObj.isValid(noColorSusan, personRules)).toBeFalsy();
+    expect(valObj.isValid(edward, personRules)).toBeTruthy();
+    expect(valObj.isValid(susan, personRules)).toBeFalsy();
   });
 
   it('validates the proper types of object properties', () => {
     // i.e. person.name must be a string, etc.
-    expect(valObj.isValid(fred, personRules)).toBeFalsy();
+    expect(valObj.isValid(edward, personRules)).toBeTruthy();
+    expect(valObj.isValid(susan, personRules)).toBeFalsy();
   });
 
   it('validates the types of values contained in an array', () => {
     // i.e. an array of all strings or numbers
-    expect(valObj.isValid(fredWithProperChildren, personRules)).toBeTruthy();
-    expect(valObj.isValid(fredWithInvalidChildren, personRules)).toBeFalsy();
+    expect(valObj.isValid(edward, personRules)).toBeTruthy();
+    expect(valObj.isValid(susan, personRules)).toBeFalsy();
   });
 
   it('validates a value array against an approved list', () => {
     // i.e. a string might only be allowed to be "yes" or "no"
-    expect(valObj.isValid(nonBinaryFred, personRules)).toBeFalsy();
+    expect(valObj.isValid(edward, personRules)).toBeTruthy();
+    expect(valObj.isValid(susan, personRules)).toBeFalsy();
   });
 
   // TODO: Cover so, so many more cases
