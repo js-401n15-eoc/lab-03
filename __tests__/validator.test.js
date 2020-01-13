@@ -95,7 +95,7 @@ describe('valObj module performs complex validations', () => {
       },
       favoriteFoods: { typing: 'array', valueType: 'string' },
       married: { typing: 'boolean', required: true },
-      kids: { typing: 'number', required: true }
+      kids: { typing: 'number', required: true },
     },
   };
 
@@ -121,34 +121,13 @@ describe('valObj module performs complex validations', () => {
     },
     favoriteFoods: ['pizza','cupcakes','children'],
     married: true, 
-    kids: 0
+    kids: 0,
   };
 
-  it('validates the presence of required object properties at any level', () => {
+  it('validates object contains all fields based on rules', () => {
     // i.e. does person.hair.color exist and have a good value, not just person.hair
     expect(valObj.isValid(edward, personRules)).toBeTruthy();
     expect(valObj.isValid(susan, personRules)).toBeFalsy();
   });
-
-  it('validates the proper types of object properties', () => {
-    // i.e. person.name must be a string, etc.
-    expect(valObj.isValid(edward, personRules)).toBeTruthy();
-    expect(valObj.isValid(susan, personRules)).toBeFalsy();
-  });
-
-  it('validates the types of values contained in an array', () => {
-    // i.e. an array of all strings or numbers
-    expect(valObj.isValid(edward, personRules)).toBeTruthy();
-    expect(valObj.isValid(susan, personRules)).toBeFalsy();
-  });
-
-  it('validates a value array against an approved list', () => {
-    // i.e. a string might only be allowed to be "yes" or "no"
-    expect(valObj.isValid(edward, personRules)).toBeTruthy();
-    expect(valObj.isValid(susan, personRules)).toBeFalsy();
-  });
-
-  // TODO: Cover so, so many more cases
-
 });
 

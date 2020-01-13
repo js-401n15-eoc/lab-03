@@ -40,3 +40,9 @@ let editFile = (filePath, cb) => {
 };
 
 editFile(filePath, editHelper);
+const badPath = `${__dirname}/files/data/person.exe`;
+
+reader.mockReaderWithCallback(badPath, (err, data) => {
+  if (err) { throw err; }
+  console.log('Data:', data);
+});
