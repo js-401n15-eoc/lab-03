@@ -20,45 +20,32 @@ describe('reader', () => {
     },
   };
 
-  const susan = {
-    id: '123-45-6789',
-    name: 'Susan McDeveloperson',
-    age: 37,
-    gender: 'female',
-    hair: {
-      color: 'brown',
-      style: 'long',
-    },
-    children: [],
-  };
-
-
-  const edward = {
-    firstName: 'Edward',
-    lastName: 'Scissorhands',
-    hair: {
-      type: 'wavy',
-      color: 'brown',
-    },
-    favoriteFoods: ['pizza','cupcakes','children'],
-    married: true, 
-    kids: 0,
-  };
-
   const goodPath = `${__dirname}/files/data/person.json`;
-  const badPath = `${__dirname}/files/data/person.exe`;
-
-  it('can return a valid JSON object with a proper file path and type', () => {
+  const badFile = `${__dirname}/files/data/person.exe`;
+  const badPath = `abcd!`;
+  
+  it('can return a valid JSON object when given a proper file path and type', () => {
     reader.mockReaderWithCallback(goodPath, (err, data) => {
       if (err) { throw err; }
       expect(valObj.isValid(data, personRules)).toBeTruthy();
     });
   });
 
-  it('throws an error for an invalid file type', () => {
+  it('throws an error for an invalid file path', () => {
     reader.mockReaderWithCallback(badPath, (err, data) => {
+      setTimeout(() => {
+        expect(err).toBeTruthy();
+        expect(err).toEqual('Invalid Directory');
+        expect(data).toBeFalsy();
+      }, 1000);
+    });
+  });
+
+  it('throws an error for an invalid file type', () => {
+    reader.mockReaderWithCallback(badFile, (err, data) => {
       expect(err).toBeTruthy();
       expect(err).toEqual('Invalid File');
+      expect(data).toBeFalsy();
     });
   });
 });
