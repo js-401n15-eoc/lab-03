@@ -3,6 +3,8 @@
 const reader = require('./lib/reader.js');
 const writer = require('./lib/writer.js');
 const filePath = `${__dirname}/files/data/person.json`;
+const util = require('util');
+const fs = require('fs').promises;
 
 const personRules = {
   fields: {
@@ -19,6 +21,7 @@ const personRules = {
   },
 };
 
+// using callbacks
 let editHelper = (err, filePath) => {
   if (err) { throw err; }
   console.log('2: Received file path: ', filePath);
@@ -46,3 +49,28 @@ reader.mockReaderWithCallback(badPath, (err, data) => {
   if (err) { throw err; }
   console.log('Data:', data);
 });
+
+// Using Promisify and .then
+let utilEditPromise = util.promisify(editHelper);
+utilEditPromise(undefined, filePath)
+.then(data => console.log('Ulil Promisify returns: ', data))
+.catch(console.error);
+
+// using async
+const editFileAsync = async (file, rules) => {
+  let readRes = false;
+
+  while (!readRes) {
+    readRes = await reader.readerWithAsync(file);
+  }
+
+  console.log('readRes value: ', readRes);
+  let writeRes = false;
+  while (!writeRes) {
+    writeRes = await writer.writerWithAsync(file, readRes, rules);
+  }
+
+  console.log('writeRes value: ', writeRes);
+}
+
+editFileAsync(filePath, personRules);
